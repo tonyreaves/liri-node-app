@@ -1,5 +1,8 @@
+//calls .env file and keys.js
 require("dotenv").config();
-// var keyRequest = require("keys.js");
+
+
+var keys = require("keys.js");
 
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
@@ -11,9 +14,9 @@ var movieRequest = require("http://www.omdbapi.com/?t=" + movieThis + "&y=&plot=
 
 
 if (nodeArgs[2] === "movie-this") {
-    for (var i = 4; i < nodeArgs.length; i++) {
+    for (var i = 3; i < nodeArgs.length; i++) {
 
-        if (i > 4 && i < nodeArgs.length) {
+        if (i > 3 && i < nodeArgs.length) {
 
             movieThis = movieThis + "+" + nodeArgs[i]
         }
@@ -23,6 +26,7 @@ if (nodeArgs[2] === "movie-this") {
         }
     }
 
+//========JSON requests =====================================================
 
     // Request module on a URL with a JSON
     movieRequest("http://www.omdbapi.com/?t=" + movieThis + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
@@ -43,4 +47,18 @@ if (nodeArgs[2] === "movie-this") {
         }
     });
 
+}
+
+if (nodeArgs[2] === "movie-this") {
+    for (var i = 4; i < nodeArgs.length; i++) {
+
+        if (i > 4 && i < nodeArgs.length) {
+
+            movieThis = movieThis + "+" + nodeArgs[i]
+        }
+
+        else {
+            movieThis += nodeArgs[i];
+        }
+    }
 }
