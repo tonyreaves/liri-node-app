@@ -2,17 +2,18 @@
 require("dotenv").config();
 
 
-var keys = require("keys.js");
+var keys = require("./keys");
+var Spotify = require(Spotify)
 
 var spotify = new Spotify(keys.spotify);
-var client = new Twitter(keys.twitter);
-var inquirer = require("inquirer");
+// var client = new Twitter(keys.twitter);
+// var inquirer = require("inquirer");
 var nodeArgs = process.argv;
 
 var movieThis = "";
 var movieRequest = require("http://www.omdbapi.com/?t=" + movieThis + "&y=&plot=short&apikey=trilogy");
 
-
+//========JSON requests =====================================================
 if (nodeArgs[2] === "movie-this") {
     for (var i = 3; i < nodeArgs.length; i++) {
 
@@ -26,10 +27,8 @@ if (nodeArgs[2] === "movie-this") {
         }
     }
 
-//========JSON requests =====================================================
-
     // Request module on a URL with a JSON
-    movieRequest("http://www.omdbapi.com/?t=" + movieThis + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
+    movieRequest, function (error, response, body) {
 
         // If no errors and rxesponse code is 200 
         if (!error && response.statusCode === 200) {
@@ -45,20 +44,20 @@ if (nodeArgs[2] === "movie-this") {
             console.log("Plot: " + JSON.parse(body).Plot);
             console.log("Actors: " + JSON.parse(body).Actors);
         }
-    });
-
+    };
 }
 
-if (nodeArgs[2] === "movie-this") {
-    for (var i = 4; i < nodeArgs.length; i++) {
+//if song is "undefined"/if not song return I want it that way
+if (nodeArgs[2] === "spotify-this-song") {
+    for (var i = 3; i < nodeArgs.length; i++) {
 
-        if (i > 4 && i < nodeArgs.length) {
+        if (i > 3 && i < nodeArgs.length) {
 
-            movieThis = movieThis + "+" + nodeArgs[i]
+            spotifyThis = spotifyThis + "+" + nodeArgs[i]
         }
 
         else {
-            movieThis += nodeArgs[i];
+            spotifyThis += nodeArgs[i];
         }
     }
 }
