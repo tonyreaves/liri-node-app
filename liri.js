@@ -2,34 +2,41 @@
 require("dotenv").config();
 
 
-var keys = require("./keys");
-var Spotify = require(Spotify)
+var keys = require("./keys.js");
+var request = require('request')
+// var Spotify = require(Spotify)
 
-var spotify = new Spotify(keys.spotify);
+// var newSpotify = new Spotify(keys.spotify);
 // var client = new Twitter(keys.twitter);
-// var inquirer = require("inquirer");
+var inquirer = require("inquirer");
 var nodeArgs = process.argv;
+var movie = "";
 
-var movieThis = "";
-var movieRequest = require("http://www.omdbapi.com/?t=" + movieThis + "&y=&plot=short&apikey=trilogy");
 
 //========JSON requests =====================================================
 if (nodeArgs[2] === "movie-this") {
-    for (var i = 3; i < nodeArgs.length; i++) {
 
-        if (i > 3 && i < nodeArgs.length) {
+    //If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
+    if (nodeArgs[3] === undefined) {
+        var movie = "Mr. Nobody"
+    }
+    else {
+        for (var i = 3; i < nodeArgs.length; i++) {
 
-            movieThis = movieThis + "+" + nodeArgs[i]
-        }
+            if (i > 3 && i < nodeArgs.length) {
 
-        else {
-            movieThis += nodeArgs[i];
+                var movie = movie + "+" + nodeArgs[i]
+            }
+
+            else {
+                movie += nodeArgs[i];
+            }
         }
     }
+    var movieQuery = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
 
     // Request module on a URL with a JSON
-    movieRequest, function (error, response, body) {
-
+    request(movieQuery, function (error, response, body) {
         // If no errors and rxesponse code is 200 
         if (!error && response.statusCode === 200) {
 
@@ -44,20 +51,23 @@ if (nodeArgs[2] === "movie-this") {
             console.log("Plot: " + JSON.parse(body).Plot);
             console.log("Actors: " + JSON.parse(body).Actors);
         }
-    };
-}
-
-//if song is "undefined"/if not song return I want it that way
-if (nodeArgs[2] === "spotify-this-song") {
-    for (var i = 3; i < nodeArgs.length; i++) {
-
-        if (i > 3 && i < nodeArgs.length) {
-
-            spotifyThis = spotifyThis + "+" + nodeArgs[i]
-        }
-
-        else {
-            spotifyThis += nodeArgs[i];
-        }
+        else console.log
     }
+    )
 }
+
+//If no song is provided then your program will default to "The Sign" by Ace of Base.
+//if song is "undefined"/if not song return I want it that way
+// if (nodeArgs[2] === "spotify-this-song") {
+//     for (var i = 3; i < nodeArgs.length; i++) {
+
+//         if (i > 3 && i < nodeArgs.length) {
+
+//             spotifyThis = spotifyThis + "+" + nodeArgs[i]
+//         }
+
+//         else {
+//             spotifyThis += nodeArgs[i];
+//         }
+//     }
+// }
