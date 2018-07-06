@@ -11,23 +11,24 @@ var spotifyApi = new Spotify(keys.spotify);
 var inquirer = require("inquirer");
 var nodeArgs = process.argv;
 var movie = "";
+// var random = require ('./random.txt');
 
-
+var heyLiri = nodeArgs[2];
 
 //========JSON requests =====================================================
 //TWITTER
 //activates twitter get
-if (nodeArgs[2] === "my-tweets") {
+if (heyLiri === "my-tweets") {
 
     //I want the API to return last 20 tweets and when they were created
-    var params = { screen_name: '@TonyJabroni8', count: 20, include_rts: false };
+    var params = { screen_name: '@TonyJabroni8', count: 20, include_rts: false, exclude_replies: true };
     var tweets = {};
     //calling Twitter
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
-            for (var h = 0; h < tweets.length; h++) {
-                console.log(tweets[h].text);
-                console.log(tweets[h].created_at);
+            for (var t = 0; t < tweets.length; t++) {
+                console.log(tweets[t].text);
+                console.log(tweets[t].created_at);
             }
         }
 
@@ -38,13 +39,13 @@ if (nodeArgs[2] === "my-tweets") {
 }
 
 
-//OMDB========
+//OMDB================
 // Activates omdb search
-if (nodeArgs[2] === "movie-this") {
+if (heyLiri === "movie-this") {
 
     //If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
     if (nodeArgs[3] === undefined) {
-        var movie = "Mr. Nobody"
+        var movie = "Mr.+Nobody"
     }
 
     //looks for additional words in search term, puts + between words
@@ -87,19 +88,17 @@ if (nodeArgs[2] === "movie-this") {
 
 }
 
-//SPOTIFY=============
+//SPOTIFY==============
 //Activate spotify search
-else if (nodeArgs[2] === "spotify-this-song") {
+else if (heyLiri === "spotify-this-song") {
     //If no song is provided then your program will default to "The Sign" by Ace of Base.
     if (nodeArgs[3] === undefined) {
-        var song = "The Sign"
+        var song = "The+Sign"
     }
 
     else {
         for (var i = 3; i < nodeArgs.length; i++) {
-
             if (i > 3 && i < nodeArgs.length) {
-
                 var song = song + "+" + nodeArgs[i]
             }
 
@@ -108,21 +107,28 @@ else if (nodeArgs[2] === "spotify-this-song") {
             }
         }
     }
-    spotifyApi.searchTracks(song, function (err, data) {
+    
+    spotifyApi.search({ type: 'track', query: song }, function (err, data) {
         if (err) {
-            console.error('Something went wrong', err.message);
-            return;
+            return console.log('There was an error: ' + err);
         }
 
         // If no errors and rxesponse code is 200 
-        else if (!error && response.statusCode === 200) {
+        else {
 
-            // Print out the omdb return
+            // Print out the return 
             console.log("=====================");
-            console.log(data);
+            console.log(data.tracks);
 
         }
-        else console.log("There was an error.")
     }
     )
+}
+
+else if (nodeArgs[2] === "do-what-it-says") {
+    heyLiri === random.data
+}
+
+else if (heyLiri === "tea-earl-grey-hot") {
+    console.log("Sorry, the replicator is in the shop.")
 }
