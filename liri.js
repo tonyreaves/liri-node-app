@@ -8,10 +8,10 @@ var Spotify = require('node-spotify-api')
 var twitter = require('twitter');
 var client = new twitter(keys.twitter);
 var spotifyApi = new Spotify(keys.spotify);
-var inquirer = require("inquirer");
 var nodeArgs = process.argv;
 var movie = "";
-// var random = require ('./random.txt');
+var randomTxt = require('./random.txt');
+var doThis = new randomTxt(random);
 
 var heyLiri = nodeArgs[2];
 
@@ -107,26 +107,20 @@ else if (heyLiri === "spotify-this-song") {
             }
         }
     }
-    
-    spotifyApi.search({ type: 'track', query: song }, function (err, data) {
+    spotifyApi.setAccessToken()
+
+    spotifyApi.search({ type: 'track', query: song }, function(err, data) {
         if (err) {
-            return console.log('There was an error: ' + err);
+          return console.log('Error occurred: ' + err);
         }
-
-        // If no errors and rxesponse code is 200 
-        else {
-
-            // Print out the return 
-            console.log("=====================");
-            console.log(data.tracks);
-
-        }
-    }
-    )
+       
+      console.log(data); 
+      });
+      
 }
 
 else if (nodeArgs[2] === "do-what-it-says") {
-    heyLiri === random.data
+    (heyLiri === doThis)
 }
 
 else if (heyLiri === "tea-earl-grey-hot") {
