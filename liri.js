@@ -120,7 +120,18 @@ else if (heyLiri === "spotify-this-song") {
 }
 
 else if (nodeArgs[2] === "do-what-it-says") {
-    (heyLiri === doThis)
+    
+    (heyLiri === fs.read("./random.txt"))
+
+    for (var i = 2; i < heyLiri.length; i++) {
+        if (i > 2 && i < nodeArgs.length) {
+            var heyLiri = heyLiri + "+" + nodeArgs[i]
+        }
+
+        else {
+            heyLiri += nodeArgs[i];
+        }
+    }
 }
 
 else if (heyLiri === "tea-earl-grey-hot") {
