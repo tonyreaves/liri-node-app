@@ -15,26 +15,30 @@ var movie = "";
 
 
 //========JSON requests =====================================================
+//TWITTER
 //activates twitter get
 if (nodeArgs[2] === "my-tweets") {
 
     //I want the API to return last 20 tweets and when they were created
-    var params = {screen_name: '@TonyJabroni8', count: 20, include_rts: false};
-
+    var params = { screen_name: '@TonyJabroni8', count: 20, include_rts: false };
+    var tweets = {};
     //calling Twitter
-    client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
-          console.log(tweets);
+            for (var h = 0; h < tweets.length; h++) {
+                console.log(tweets[h].text);
+                console.log(tweets[h].created_at);
+            }
         }
 
-      else {
-          console.log("There was an error.")
-      }
+        else {
+            console.log("There was an error.")
+        }
     });
 }
 
 
-
+//OMDB========
 // Activates omdb search
 if (nodeArgs[2] === "movie-this") {
 
@@ -83,6 +87,7 @@ if (nodeArgs[2] === "movie-this") {
 
 }
 
+//SPOTIFY=============
 //Activate spotify search
 else if (nodeArgs[2] === "spotify-this-song") {
     //If no song is provided then your program will default to "The Sign" by Ace of Base.
@@ -103,18 +108,19 @@ else if (nodeArgs[2] === "spotify-this-song") {
             }
         }
     }
-    spotifyApi.searchTracks(song, function(err, data) {
+    spotifyApi.searchTracks(song, function (err, data) {
         if (err) {
-          console.error('Something went wrong', err.message);
-          return;}
-      
+            console.error('Something went wrong', err.message);
+            return;
+        }
+
         // If no errors and rxesponse code is 200 
         else if (!error && response.statusCode === 200) {
 
             // Print out the omdb return
             console.log("=====================");
             console.log(data);
-           
+
         }
         else console.log("There was an error.")
     }
