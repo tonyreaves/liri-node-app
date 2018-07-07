@@ -10,16 +10,35 @@ var client = new twitter(keys.twitter);
 var spotifyApi = new Spotify(keys.spotify);
 var nodeArgs = process.argv;
 var movie = "";
-// var randomTxt = require('./random.txt');
-// var doThis = new randomTxt(random);
-var filename = "./random.txt";
-
+var doThis = "";
 var heyLiri = nodeArgs[2];
 
 //========JSON requests =====================================================
+
+if (nodeArgs[2] === "do-what-it-says") {
+
+    var fs = require("fs");
+    
+    fs.readFile("random.txt", "utf8", function(error, data) {
+
+        // If the code experiences any errors it will log the error to the console.
+        if (error) {
+          return console.log(error);
+        }
+      
+        // We will then print the contents of data
+        console.log(data);
+      
+        var doThis = data;
+      
+        var heyLiri = doThis;
+      });
+      
+}
+
 //TWITTER
 //activates twitter get
-if (heyLiri === "my-tweets") {
+else if (heyLiri === "my-tweets") {
 
     //I want the API to return last 20 tweets and when they were created
     var params = { screen_name: '@TonyJabroni8', count: 20, include_rts: false, exclude_replies: true };
@@ -122,22 +141,7 @@ else if (heyLiri === "spotify-this-song") {
 
 }
 
-else if (nodeArgs[2] === "do-what-it-says") {
 
-    var fs = require('fs');
-    
-    (heyLiri === fs.read(filename))
-
-    for (var i = 2; i < heyLiri.length; i++) {
-        if (i > 2 && i < nodeArgs.length) {
-            var heyLiri = heyLiri + "+" + nodeArgs[i]
-        }
-
-        else {
-            heyLiri += nodeArgs[i];
-        }
-    }
-}
 
 else if (heyLiri === "tea-earl-grey-hot") {
     console.log("Sorry, the replicator is in the shop.")
