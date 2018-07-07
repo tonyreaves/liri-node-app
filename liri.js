@@ -10,8 +10,8 @@ var client = new twitter(keys.twitter);
 var spotifyApi = new Spotify(keys.spotify);
 var nodeArgs = process.argv;
 var movie = "";
-var randomTxt = require('./random.txt');
-var doThis = new randomTxt(random);
+// var randomTxt = require('./random.txt');
+// var doThis = new randomTxt(random);
 
 var heyLiri = nodeArgs[2];
 
@@ -93,34 +93,36 @@ if (heyLiri === "movie-this") {
 else if (heyLiri === "spotify-this-song") {
     //If no song is provided then your program will default to "The Sign" by Ace of Base.
     if (nodeArgs[3] === undefined) {
-        var song = "The+Sign"
+        var song = "The+Sign+Ace+of+Base"
     }
 
     else {
-        for (var i = 3; i < nodeArgs.length; i++) {
-            if (i > 3 && i < nodeArgs.length) {
-                var song = song + "+" + nodeArgs[i]
+        for (var s = 3; s < nodeArgs.length; s++) {
+            if (s > 3 && s < nodeArgs.length) {
+                var song = song + "+" + nodeArgs[s]
             }
 
             else {
-                song += nodeArgs[i];
+                song = nodeArgs[s];
             }
         }
     }
-    spotifyApi.setAccessToken()
-
-    spotifyApi.search({ type: 'track', query: song }, function(err, data) {
+    console.log(song);
+    spotifyApi.search({ type: 'track', query: song }, function (err, data) {
         if (err) {
-          return console.log('Error occurred: ' + err);
+            return console.log('Error occurred: ' + err);
         }
-       
-      console.log(data); 
-      });
-      
+
+        console.log(data.tracks.items[0].artists[0].name)
+        console.log(data.tracks.items[0].name);
+        console.log(data.tracks.items[0].preview_url)
+        console.log(data.tracks.items[0].album.name)
+    });
+
 }
 
 else if (nodeArgs[2] === "do-what-it-says") {
-    
+
     (heyLiri === fs.read("./random.txt"))
 
     for (var i = 2; i < heyLiri.length; i++) {
