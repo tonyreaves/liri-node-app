@@ -12,6 +12,7 @@ var nodeArgs = process.argv;
 var movie = "";
 // var randomTxt = require('./random.txt');
 // var doThis = new randomTxt(random);
+var filename = "./random.txt";
 
 var heyLiri = nodeArgs[2];
 
@@ -123,7 +124,9 @@ else if (heyLiri === "spotify-this-song") {
 
 else if (nodeArgs[2] === "do-what-it-says") {
 
-    (heyLiri === fs.read("./random.txt"))
+    var fs = require('fs');
+    
+    (heyLiri === fs.read(filename))
 
     for (var i = 2; i < heyLiri.length; i++) {
         if (i > 2 && i < nodeArgs.length) {
