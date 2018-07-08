@@ -10,10 +10,9 @@ var client = new twitter(keys.twitter);
 var spotifyApi = new Spotify(keys.spotify);
 var nodeArgs = process.argv;
 var movie = "";
-var doThis = "";
 var heyLiri = nodeArgs[2];
 
-// THIS WAS SUPPOSED TO CHANGE nodeArgs[2] into the text in data.txt.
+// THIS WAS SUPPOSED TO change nodeArgs[2] into the text in data.txt.
 // if (heyLiri === "do-what-it-says") {
 
 //     var fs = require("fs");
@@ -41,7 +40,7 @@ var heyLiri = nodeArgs[2];
 
 //TWITTER
 //activates twitter get
-else if (heyLiri === "my-tweets") {
+if (heyLiri === "my-tweets") {
 
     //I want the API to return last 20 tweets and when they were created
     var params = { screen_name: '@TonyJabroni8', count: 20, include_rts: false, exclude_replies: true };
@@ -130,7 +129,6 @@ else if (heyLiri === "spotify-this-song") {
             }
         }
     }
-    console.log(song);
     spotifyApi.search({ type: 'track', query: song }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
